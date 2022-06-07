@@ -1,0 +1,14 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+platforms:
+  - name: all-in-one
+    box: generic/ubuntu2004
+    memory: 2048
+    cpus: 2
+provisioner:
+  name: ansible
+verifier:
+  name: testinfra

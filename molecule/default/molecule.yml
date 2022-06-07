@@ -2,10 +2,25 @@
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: vagrant
 platforms:
-  - name: instance
+  - name: controller
+    box: generic/ubuntu2004
+    memory: 1024
+    cpus: 2
+  - name: exec1
+    box: generic/ubuntu2004
+    memory: 1024
+    cpus: 2
+  - name: exec2
+    box: generic/ubuntu2004
+    memory: 1024
+    cpus: 2
+  - name: dbd
+    box: generic/ubuntu2004
+    memory: 1024
+    cpus: 2
 provisioner:
   name: ansible
 verifier:
-  name: ansible
+  name: testinfra

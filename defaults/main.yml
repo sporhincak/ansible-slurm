@@ -36,12 +36,7 @@ __slurm_config_default:
   # slurmctld options
   SlurmctldPort: 6817
   SlurmctldLogFile: "{{ '/var/log/slurm-llnl/slurmctld.log' if __slurm_debian else omit }}"
-  SlurmctldPidFile: >-
-    {{
-        '/run/slurmctld.pid' if __slurm_debian and ansible_distribution_release == 'focal' else (
-        '/var/run/slurm-llnl/slurmctld.pid' if __slurm_debian else
-        omit)
-    }}
+  SlurmctldPidFile: '/run/slurmctld.pid' 
   StateSaveLocation: >-
     {{
         '/var/lib/slurm-llnl/slurmctld' if __slurm_debian else (
@@ -51,18 +46,16 @@ __slurm_config_default:
   # slurmd options
   SlurmdPort: 6818
   SlurmdLogFile: "{{ '/var/log/slurm-llnl/slurmd.log' if __slurm_debian else omit }}"
-  SlurmdPidFile: >-
-    {{
-        '/run/slurmd.pid' if __slurm_debian and ansible_distribution_release == 'focal' else (
-        '/var/run/slurm-llnl/slurmd.pid' if __slurm_debian else
-        omit)
-    }}
+  SlurmdPidFile: '/run/slurmd.pid'
   SlurmdSpoolDir: >-
     {{
         '/var/lib/slurm-llnl/slurmd' if __slurm_debian else (
         '/var/spool/slurm/slurmd' if __slurm_redhat else
         omit)
     }}
+  JobAcctGatherType: jobacct_gather/cgroup
+  AccountingStorageType: accounting_storage/slurmdbd
+
 __slurm_config_merged: "{{ __slurm_config_default | combine(slurm_config | default({})) }}"
 
 __slurm_debian_packages:
@@ -82,10 +75,12 @@ __slurm_packages: "{{ __slurm_debian_packages if __slurm_debian else __slurm_red
 __slurmdbd_config_default:
   AuthType: auth/munge
   DbdPort: 6819
+  DbdHost: localhost
+  StorageUser: slurm
+  StoragePass: aI4]MVHt21PIBp1g
+  StorageType: accounting_storage/mysql
+  StorageHost: cluster-01.db.srv.science.upjs.sk
   SlurmUser: "{{ __slurm_user_name }}"
-  PidFile: >-
-    {{
-        '/var/run/slurm-llnl/slurmdbd.pid' if __slurm_debian else omit
-    }}
+  PidFile: /run/slurmdbd.pid
   LogFile: "{{ '/var/log/slurm-llnl/slurmdbd.log' if __slurm_debian else omit }}"
 __slurmdbd_config_merged: "{{ __slurmdbd_config_default | combine(slurmdbd_config | default({})) }}"

@@ -6,7 +6,10 @@
     - name: "Update package cache"
       ansible.builtin.apt:
         update_cache: yes
-      when: ansible_os_family == 'Debian'
     - name: "Include ansible-slurm"
       include_role:
         name: "ansible-slurm"
+        
+  vars:
+    slurm_roles: ['controller', 'exec', 'dbd']
+    storage_type: ''
