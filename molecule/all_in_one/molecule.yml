@@ -5,7 +5,8 @@ driver:
   name: vagrant
 platforms:
   - name: all-in-one
-    box: generic/ubuntu2004
+    #box: generic/ubuntu2004
+    box: boxen/ubuntu-22.04-x86_64
     memory: 2048
     cpus: 2
 provisioner:
